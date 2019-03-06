@@ -1,0 +1,3 @@
+[submodule "Policydokument"]
+	path = Policydokument
+	url = git@github.com:dtekcth/Policydokument.git
