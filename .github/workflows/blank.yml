@@ -1,0 +1,82 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Recompile LaTeX files
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on pull request events on the master branch
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  compile_stadgar:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out the repository 
+      - uses: actions/checkout@v2
+        
+      - uses: dorny/paths-filter@v2.2.1
+        id: filter
+        with:
+          filters: |
+            stadgar:
+              - 'stadgar/stadgar.tex'
+            reglemente:
+              - 'reglemente/reglemente.tex'
+            eko_reglemente:
+              - 'ekonomiskt_reglemente/ekonomiskt_reglemente.tex'
+      
+      # Use the filter to check if stadgar were changed. If so, compile it
+      - name: Kompilera stadgar
+        if: steps.filter.outputs.stadgar == 'true'
+        uses: vinay0410/tectonic-action@v1.1.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Path of Tex File
+          tex_path: 'stadgar/stadgar.tex'
+          # String stating whether to push output PDF, PDF will only be pushed in case of "yes"
+          push: 'yes'
+          
+          
+#  compile_reglemente:
+    # The type of runner that the job will run on
+#    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+#    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#      - uses: actions/checkout@v2
+        
+#      - name: Kompilera reglemente
+#        uses: vinay0410/tectonic-action@v1.1.2
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+          # Path of Tex File
+#          tex_path: 'reglemente/reglemente.tex'
+          # String stating whether to push output PDF, PDF will only be pushed in case of "yes"
+#          push: 'yes'
+          
+#  compile_eko_reglemente:
+    # The type of runner that the job will run on
+#    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+#    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#      - uses: actions/checkout@v2
+        
+#      - name: Kompilera reglemente
+#        uses: vinay0410/tectonic-action@v1.1.2
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+          # Path of Tex File
+#          tex_path: 'ekonomiskt_reglemente/ekonomiskt_reglemente.tex'
+          # String stating whether to push output PDF, PDF will only be pushed in case of "yes"
+#          push: 'yes'
