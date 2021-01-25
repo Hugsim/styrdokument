@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  compile_stadgar:
+  compile_latex:
     runs-on: ubuntu-latest
     steps:
       # Checks-out the repository 
@@ -42,6 +42,27 @@ jobs:
           # String stating whether to push output PDF, PDF will only be pushed in case of "yes"
           push: 'yes'
           
+      - name: Kompilera reglemente
+        if: steps.filter.outputs.reglemente == 'true'
+        uses: vinay0410/tectonic-action@v1.1.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Path of Tex File
+          tex_path: 'reglemente/reglemente.tex'
+          # String stating whether to push output PDF, PDF will only be pushed in case of "yes"
+          push: 'yes'
+          
+      - name: Kompilera ekonomiskt reglemente
+        if: steps.filter.outputs.ekonomiskt_reglemente == 'true'
+        uses: vinay0410/tectonic-action@v1.1.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Path of Tex File
+          tex_path: 'ekonomiskt_reglemente/ekonomiskt_reglemente.tex'
+          # String stating whether to push output PDF, PDF will only be pushed in case of "yes"
+          push: 'yes'          
           
 #  compile_reglemente:
     # The type of runner that the job will run on
