@@ -39,8 +39,7 @@ jobs:
           repository: dtekcth/dTeX
           path: './dTeX'
       - name: test
-        run: ls
-        working-directory: '.'
+        run: 'cp ./dTeX/* .'
       - name: Kompilera stadgar
         if: steps.filter.outputs.stadgar == 'true'
         uses: vinay0410/tectonic-action@v1.1.2
