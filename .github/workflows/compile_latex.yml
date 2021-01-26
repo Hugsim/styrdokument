@@ -32,14 +32,13 @@ jobs:
             eko_reglemente:
               - 'ekonomiskt_reglemente/ekonomiskt_reglemente.tex'
                 
-      - name: Checkout stadgar
-        if: steps.filter.outputs.stadgar == 'true'
+      - name: Checkout dtek-class
         uses: actions/checkout@v2
         with:
           repository: dtekcth/dTeX
-          path: './dTeX'
-      - run: 'cp ./dTeX/* ./stadgar'
-      - run: 'ls stadgar'
+          path: './classes'
+      - run: 'cp ./classes/* ./stadgar'
+        if: steps.filter.outputs.stadgar == 'true'
       - name: Kompilera stadgar
         if: steps.filter.outputs.stadgar == 'true'
         uses: vinay0410/tectonic-action@v1.1.2
@@ -51,11 +50,8 @@ jobs:
           # String stating whether to push output PDF, PDF will only be pushed in case of "yes"
           push: 'yes'
           
-      - name: Checkout reglemente
+      - run: 'cp ./classes/* ./reglemente'
         if: steps.filter.outputs.reglemente == 'true'
-        uses: actions/checkout@v2
-        with:
-          repository: dtekcth/dTeX
       - name: Kompilera reglemente
         if: steps.filter.outputs.reglemente == 'true'
         uses: vinay0410/tectonic-action@v1.1.2
@@ -67,11 +63,8 @@ jobs:
           # String stating whether to push output PDF, PDF will only be pushed in case of "yes"
           push: 'yes'
           
-      - name: Checkout ekonomiskt reglemente
+      - run: 'cp ./classes/* ./ekonomiskt_reglemente'
         if: steps.filter.outputs.ekonomiskt_reglemente == 'true'
-        uses: actions/checkout@v2
-        with:
-          repository: dtekcth/dTeX
       - name: Kompilera ekonomiskt reglemente
         if: steps.filter.outputs.ekonomiskt_reglemente == 'true'
         uses: vinay0410/tectonic-action@v1.1.2
