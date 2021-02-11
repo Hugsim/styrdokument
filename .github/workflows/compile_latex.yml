@@ -26,7 +26,7 @@ jobs:
             stadgar:
               - 'stadgar/stadgar.tex'
             reglemente:
-              - 'reglemente/reglemente.tex'
+              - 'reglemente/*'
             eko_reglemente:
               - 'ekonomiskt_reglemente/ekonomiskt_reglemente.tex'
                 
