@@ -1,17 +1,14 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Recompile LaTeX files
+name: Recompile styrdokument
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on pull request events on the master branch
+  # Triggers the workflow on pushing on the master branch
   push:
     branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   compile_latex:
     runs-on: ubuntu-latest
@@ -20,6 +17,7 @@ jobs:
       - name: Checkout entire repository
         uses: actions/checkout@v2
         
+      # Sets variables used later if files were changed
       - name: Filter changed files
         uses: dorny/paths-filter@v2.2.1
         id: filter
@@ -37,6 +35,7 @@ jobs:
         with:
           repository: dtekcth/dTeX
           path: './classes'
+
       - run: 'cp ./classes/* ./stadgar'
         if: steps.filter.outputs.stadgar == 'true'
       - name: Kompilera stadgar
@@ -64,9 +63,9 @@ jobs:
           push: 'yes'
           
       - run: 'cp ./classes/* ./ekonomiskt_reglemente'
-        if: steps.filter.outputs.ekonomiskt_reglemente == 'true'
+        if: steps.filter.outputs.eko_reglemente == 'true'
       - name: Kompilera ekonomiskt reglemente
-        if: steps.filter.outputs.ekonomiskt_reglemente == 'true'
+        if: steps.filter.outputs.eko_reglemente == 'true'
         uses: vinay0410/tectonic-action@v1.1.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
